@@ -13,11 +13,13 @@ public class randomMove : MonoBehaviour
     public SpriteRenderer idle;
     public SpriteRenderer vibin;
     public SpriteRenderer yeetin;
+    public bool neutral;
     AudioSource ad;
 
     // Start is called before the first frame update
     void Start()
     {
+        neutral = true;
         state = 0; //0 = still, 1 = left, 2 = right
         idle.enabled = true;
         vibin.enabled = false;
@@ -28,59 +30,63 @@ public class randomMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (((transform.position.x <= -1.25)&&(state==1)) || ((transform.position.x >= 1.25)&&(state==2)))
+        if (neutral)
         {
-            Debug.Log("wall");
-            state = 0;
-            if (timer == 100)
+            if (((transform.position.x <= -1.25) && (state == 1)) || ((transform.position.x >= 1.25) && (state == 2)))
             {
-                state = Random.Range(0, 3);
-                timer = 0;
+                Debug.Log("wall");
+                state = 0;
+                if (timer == 100)
+                {
+                    state = Random.Range(0, 3);
+                    timer = 0;
+                }
             }
-        }
 
-        if (state == 0)
-        {
-            idle.enabled = true;
-            vibin.enabled = false;
-            yeetin.enabled = false;
-            speed = 0;
-            if (timer == 100)
+            if (state == 0)
             {
-                state = Random.Range(0, 3);
-                timer = 0;
+                idle.enabled = true;
+                vibin.enabled = false;
+                yeetin.enabled = false;
+                speed = 0;
+                if (timer == 100)
+                {
+                    state = Random.Range(0, 3);
+                    timer = 0;
+                }
+                ad.enabled = false;
             }
-            ad.enabled = false;
-        }
-        else if (state == 1)
-        {
-            idle.enabled = false;
-            vibin.enabled = true;
-            yeetin.enabled = false;
-            speed = baseSpeed;
-            rb.transform.Translate(-(transform.right * speed * Time.deltaTime));
-            if (timer == 100)
+            else if (state == 1)
             {
-                state = Random.Range(0,3);
-                timer = 0;
+                idle.enabled = false;
+                vibin.enabled = true;
+                yeetin.enabled = false;
+                speed = baseSpeed;
+                rb.transform.Translate(-(transform.right * speed * Time.deltaTime));
+                if (timer == 100)
+                {
+                    state = Random.Range(0, 3);
+                    timer = 0;
+                }
+                ad.enabled = true;
             }
-            ad.enabled = true;
-        }
-        else if (state == 2)
-        {
-            idle.enabled = false;
-            vibin.enabled = true;
-            yeetin.enabled = false;
-            speed = baseSpeed;
-            rb.transform.Translate(transform.right * speed * Time.deltaTime);
-            if (timer == 100)
+            else if (state == 2)
             {
-                state = Random.Range(0, 3);
-                timer = 0;
+                idle.enabled = false;
+                vibin.enabled = true;
+                yeetin.enabled = false;
+                speed = baseSpeed;
+                rb.transform.Translate(transform.right * speed * Time.deltaTime);
+                if (timer == 100)
+                {
+                    state = Random.Range(0, 3);
+                    timer = 0;
+                }
+                ad.enabled = true;
             }
-            ad.enabled = true;
+            timer++;
         }
-        else if (state == 3)
+        if (state == 3)
         {
             idle.enabled = false;
             vibin.enabled = false;
@@ -93,6 +99,5 @@ public class randomMove : MonoBehaviour
             }
             ad.enabled = false;
         }
-        timer++;
     }
 }
