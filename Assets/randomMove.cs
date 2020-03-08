@@ -12,6 +12,8 @@ public class randomMove : MonoBehaviour
     public Rigidbody2D rb;
     public SpriteRenderer idle;
     public SpriteRenderer vibin;
+    public SpriteRenderer yeetin;
+    AudioSource ad;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,8 @@ public class randomMove : MonoBehaviour
         state = 0; //0 = still, 1 = left, 2 = right
         idle.enabled = true;
         vibin.enabled = false;
+        yeetin.enabled = false;
+        ad = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,17 +43,20 @@ public class randomMove : MonoBehaviour
         {
             idle.enabled = true;
             vibin.enabled = false;
+            yeetin.enabled = false;
             speed = 0;
             if (timer == 100)
             {
                 state = Random.Range(0, 3);
                 timer = 0;
             }
+            ad.enabled = false;
         }
         else if (state == 1)
         {
             idle.enabled = false;
             vibin.enabled = true;
+            yeetin.enabled = false;
             speed = baseSpeed;
             rb.transform.Translate(-(transform.right * speed * Time.deltaTime));
             if (timer == 100)
@@ -57,11 +64,13 @@ public class randomMove : MonoBehaviour
                 state = Random.Range(0,3);
                 timer = 0;
             }
+            ad.enabled = true;
         }
         else if (state == 2)
         {
             idle.enabled = false;
             vibin.enabled = true;
+            yeetin.enabled = false;
             speed = baseSpeed;
             rb.transform.Translate(transform.right * speed * Time.deltaTime);
             if (timer == 100)
@@ -69,6 +78,20 @@ public class randomMove : MonoBehaviour
                 state = Random.Range(0, 3);
                 timer = 0;
             }
+            ad.enabled = true;
+        }
+        else if (state == 3)
+        {
+            idle.enabled = false;
+            vibin.enabled = false;
+            yeetin.enabled = true;
+            speed = 0;
+            if (timer == 100)
+            {
+                state = Random.Range(0, 3);
+                timer = 0;
+            }
+            ad.enabled = false;
         }
         timer++;
     }
